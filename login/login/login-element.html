@@ -1,0 +1,83 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="bower_components/paper-input/paper-input.html">
+<link rel="import" href="bower_components/paper-button/test/paper-button.html">
+
+
+
+<dom-module id="login-element">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+    </style>
+    <div>
+      Crear Cuenta
+    </div>
+    <template is="dom-if" if="[[acceso]]" restamp>
+      <form action="">
+        <div>
+          <paper-input label="Email"  id="user"></paper-input>
+          <paper-input type="password"label="Contraseña"  id="pass"></paper-input>
+        </div>
+        <div>
+          <button type="submit" on-click="validar" id="boton">Enviar</button>
+        </div>
+      </form>
+    </template>
+    <template is="dom-if" if="[[!acceso]]">
+      <h2>Bienvenido [[acceso]]</h2>
+    </template>
+
+  </template>
+
+  <script>
+    /**
+     * `login-element`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+
+    class LoginElement extends Polymer.Element {
+      static get is() { return 'login-element'; }
+      static get properties() {
+        return {
+          usuarios: {
+            type: Array,
+            value: [{
+              usuario: 'Josep',
+              password: '1234',
+              nombre: 'Jose',
+              ocupacion: 'Desarrollador',
+            }]
+          },
+          acceso: {
+            type: String,
+            value: " "
+          }
+        };
+      }
+
+      validar() {
+
+        let us = this.shadowRoot.getElementById('user')
+        let ps = this.shadowRoot.getElementById('pass')
+
+        this.usuarios.forEach(key => {
+          if (us.value == key.usuario && ps.value == key.password) {
+            console.log(us.value, ps.value, key.usuario, key.password);
+            this.acceso = key.nombre
+
+          }
+        });
+      }
+    }
+
+    
+    window.customElements.define(LoginElement.is, LoginElement);
+  </script>
+</dom-module>
